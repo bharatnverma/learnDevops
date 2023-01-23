@@ -2,9 +2,17 @@ pipeline {
     agent any
   
     stages {
-          stage('Gradle Build') {
-      steps {
-        sh 'gradle clean build'
+          stage('Building with gradle ') {
+             steps {
+                  scripts {
+                        withGradle {
+                    chmod +x gradlew
+                    ./gradlew build
+                        }
+                   }
+                }
+
       }
-    }
 }
+}
+
