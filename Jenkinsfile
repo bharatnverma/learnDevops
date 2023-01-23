@@ -11,10 +11,9 @@ pipeline {
 
             }
        stage('Docker Build') {
-        agent any
+        
       steps {
-        sh 'echo $WORKSPACE'
-        sh 'echo $JENKINS_HOME'
+       
       	sh 'docker build -t webapp .'
       }
         } 
