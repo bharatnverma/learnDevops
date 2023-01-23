@@ -4,7 +4,9 @@ pipeline {
     stages {
           stage('Building with gradle ') {
              steps {
-                  ehco "test "
+                    withGradle {
+                    sh './gradlew build'
+                    }
                 }
 
       }
