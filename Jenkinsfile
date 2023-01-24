@@ -17,7 +17,7 @@ pipeline {
 
        stage('Docker Build') {
         steps {
-      	sh 'docker build -t webapp .'
+      	sh 'docker build -t bharatverman/learndevops/webapp .'
       }
         }
 
