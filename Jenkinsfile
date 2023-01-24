@@ -1,9 +1,8 @@
 pipeline {
     agent any 
-    environment {
+    environment {       
         
-        registry = "bharatverman/learndevops"
-        registryCredential = 'docker_user_password'  
+        DOCKERHUB_CREDENTIALS_USR = credentials(docker_user_password)  
       }
     stages {
       stage('Building with gradle ') {
@@ -26,8 +25,9 @@ pipeline {
        stage(' Push Docker Image') {
       steps{
          script {
-            docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
+            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            sh 'docker push bharatverman/learndevops/webapp'
+            sh 'docker logout'
           }
         }
       }
