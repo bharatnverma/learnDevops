@@ -20,6 +20,7 @@ pipeline {
         
         registry = "bharatverman/learndevops"
         registryCredential = 'docker_user_password'  
+      }
 
        stage(' Push Docker Image') {
       steps{
