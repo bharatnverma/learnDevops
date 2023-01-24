@@ -4,6 +4,7 @@ pipeline {
         
         DOCKERHUB_CREDENTIALS_USR = credentials(docker_user_password)  
       }
+
     stages {
       stage('Building with gradle ') {
              steps {
@@ -33,6 +34,5 @@ pipeline {
       }
     } 
 
-}
 }
 
