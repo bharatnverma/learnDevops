@@ -1,5 +1,10 @@
 pipeline {
-    agent any  
+    agent any 
+    environment {
+        
+        registry = "bharatverman/learndevops"
+        registryCredential = 'docker_user_password'  
+      }
     stages {
       stage('Building with gradle ') {
              steps {
@@ -16,11 +21,7 @@ pipeline {
       }
         }
 
-      environment{
-        
-        registry = "bharatverman/learndevops"
-        registryCredential = 'docker_user_password'  
-      }
+      
 
        stage(' Push Docker Image') {
       steps{
