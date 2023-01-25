@@ -24,15 +24,14 @@ pipeline {
 
        stage(' Push Docker Image') {
       steps{
-         script {
-            withCredentials([string(credentialsId: 'docker_pass', variable: 'docker_password')]) {
+         script {            
                     sh '''
-                      docker login -u bharatverman -p $docker_password
+                      docker login -u bharatverman -p Vbachub310$
                       docker push bharatverman/learndevops:${VERSION}
                       docker rmi bharatverman/learndevops:${VERSION}
                       docker logout
                       '''
-            }
+            
             
           }
         }
