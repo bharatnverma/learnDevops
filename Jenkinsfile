@@ -1,11 +1,20 @@
 pipeline {
     agent any 
+
+     parameters {
+
+        booleanParam(name: 'codeBuild', defaultValue: false, description: 'Gradle Build')
+        booleanParam(name: 'dockerBuild', defaultValue: false, description: 'Docker Image Build')
+        booleanParam(name: 'imagePush', defaultValue: false, description: 'Docker image push')
+    }
+
     environment {     
          VERSION = "${env.BUILD_ID}"
       }
 
     stages {
-      stage('Building with gradle ') {
+      stage('Code Build ') {
+             when { expression { params.codeBuild } }
              steps {
                     withGradle {
                     sh './gradlew build'
@@ -15,6 +24,7 @@ pipeline {
             }
 
        stage('Docker Build') {
+        when { expression { params.dockerBuild } }
         steps {
       	sh 'docker build -t bharatverman/learndevops:${VERSION} .'
       }
@@ -23,6 +33,7 @@ pipeline {
       
 
        stage(' Push Docker Image') {
+      when { expression { params.imagePush } }
       steps{
          script {            
                     sh '''
