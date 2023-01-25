@@ -1,9 +1,7 @@
 pipeline {
     agent any 
-    environment {       
-        
-        DOCKERHUB_CREDENTIALS_USR = credentials('docker_user_password') 
-        VERSION = ${env.BUILD_ID}
+    environment {     
+         = ${env.BUILD_ID}
       }
 
     stages {
@@ -27,9 +25,15 @@ pipeline {
        stage(' Push Docker Image') {
       steps{
          script {
-            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u bharatverman -p Vbachub310$' //$DOCKERHUB_CREDENTIALS_USR --password-stdin'
-            sh 'docker push bharatverman/learndevops'
-            sh 'docker logout'
+            withCredentials([string(credentialsId: 'docker_pass', variable: 'docker_password')]) {
+                    sh '''
+                      docker login -u bharatverman -p $docker_password
+                      docker push bharatverman/learndevops:${VERSION}
+                      docker rmi bharatverman/learndevops:${VERSION}
+                      docker logout
+                      '''
+            }
+            
           }
         }
       }
