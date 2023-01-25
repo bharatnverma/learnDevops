@@ -2,7 +2,8 @@ pipeline {
     agent any 
     environment {       
         
-        DOCKERHUB_CREDENTIALS_USR = credentials('docker_user_password')  
+        DOCKERHUB_CREDENTIALS_USR = credentials('docker_user_password') 
+        VERSION = ${env.BUILD_ID}
       }
 
     stages {
@@ -17,7 +18,7 @@ pipeline {
 
        stage('Docker Build') {
         steps {
-      	sh 'docker build -t bharatverman/learndevops .'
+      	sh 'docker build -t bharatverman/learndevops:${VERSION} .'
       }
         }
 
