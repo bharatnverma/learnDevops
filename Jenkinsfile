@@ -1,7 +1,7 @@
 pipeline {
     agent any 
     environment {     
-         = ${env.BUILD_ID}
+         VERSION = ${env.BUILD_ID}
       }
 
     stages {
