@@ -40,8 +40,8 @@ pipeline {
          script {            
                     sh '''
                       docker login -u bharatverman -p Vbachub310$
-                      docker push bharatverman/learndevops:${VERSION}
-                      docker rmi bharatverman/learndevops:${VERSION}
+                      docker push bharatverman/learndevops
+                      docker rmi bharatverman/learndevops
                       docker logout
                       '''
             
