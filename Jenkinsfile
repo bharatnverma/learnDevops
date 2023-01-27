@@ -6,6 +6,8 @@ pipeline {
         booleanParam(name: 'codeBuild', defaultValue: false, description: 'Gradle Build')
         booleanParam(name: 'dockerBuild', defaultValue: false, description: 'Docker Image Build')
         booleanParam(name: 'imagePush', defaultValue: false, description: 'Docker image push')
+        booleanParam(name: 'deploy', defaultValue: false, description: 'Deploy to K8s Cluster')
+        booleanParam(name: 'undeploy', defaultValue: false, description: 'Rollback recent deployment')
     }
 
     environment {     
