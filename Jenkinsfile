@@ -67,8 +67,8 @@ pipeline {
           when { expression { params.undeploy } }
           steps{
             
-              sh '''ssh -i "/home/bharat/Downloads/kubesetup.pem" ec2-user@ec2-13-234-34-149.ap-south-1.compute.amazonaws.com "curl -OJ https://github.com/bharatnverma/learnDevops/raw/main/deployment.yaml" 
-                    ssh -i "/home/bharat/Downloads/kubesetup.pem" ec2-user@ec2-13-234-34-149.ap-south-1.compute.amazonaws.com "kubectl --kubeconfig ~/.kube/config apply -f deployment.yaml " 
+              sh '''ssh -i "kubesetup.pem" ec2-user@ec2-13-234-34-149.ap-south-1.compute.amazonaws.com "curl -OJ https://github.com/bharatnverma/learnDevops/raw/main/deployment.yaml" 
+                    ssh -i "kubesetup.pem" ec2-user@ec2-13-234-34-149.ap-south-1.compute.amazonaws.com "kubectl --kubeconfig ~/.kube/config apply -f deployment.yaml " 
                    
                 '''   
           }
