@@ -18,7 +18,7 @@ spec:
       - name: webappserver
         image: bharatverman/learndevops
         ports:
-        - containerPort: 8081
+        - containerPort: 8080
         
         
 ---
@@ -33,6 +33,6 @@ spec:
   type: NodePort
   ports:
   - protocol: TCP
-    port: 8081
-    targetPort: 8081
+    port: 8080
+    targetPort: 8080
     nodePort: 31110
