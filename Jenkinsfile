@@ -3,9 +3,7 @@ pipeline {
 
      parameters {
 
-        booleanParam(name: 'codeBuild', defaultValue: false, description: 'Gradle Build')
-        booleanParam(name: 'dockerBuild', defaultValue: false, description: 'Docker Image Build')
-        booleanParam(name: 'imagePush', defaultValue: false, description: 'Docker image push')
+        booleanParam(name: 'codeBuild', defaultValue: false, description: 'Gradle Build, Docker image build and Push to Docker hub')
         booleanParam(name: 'deploy', defaultValue: false, description: 'Deploy to K8s Cluster')
         booleanParam(name: 'undeploy', defaultValue: false, description: 'Rollback recent deployment')
     }
@@ -26,7 +24,7 @@ pipeline {
             }
 
        stage('Docker Build') {
-        when { expression { params.dockerBuild } }
+        when { expression { params.codeBuild  } }
         steps {
       	sh 'docker build -t bharatverman/learndevops .'
       }
@@ -35,7 +33,7 @@ pipeline {
       
 
        stage(' Push Docker Image') {
-      when { expression { params.imagePush } }
+      when { expression { params.codeBuild  } }
       steps{
          script {            
                     sh '''
@@ -49,7 +47,7 @@ pipeline {
         }
       }
 
-      stage('Deploy to Kubernetes') {
+      stage('Deploy service to Kubernetes') {
           when { expression { params.deploy } }
           steps{
             
@@ -63,7 +61,7 @@ pipeline {
 
       }
 
-            stage('Undeploy on Kubernetes Cluster ') {
+            stage('Undeploy service on Kubernetes Cluster ') {
           when { expression { params.undeploy } }
           steps{
             
