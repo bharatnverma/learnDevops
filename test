@@ -1,0 +1,23 @@
+
+
+
+export PATH=$PATH:/opt/gradle/gradle-7.6/bin
+
+
+
+
+ parameters {
+
+        booleanParam(name: 'codeBuild', defaultValue: false, description: 'Gradle Build')
+        booleanParam(name: 'dockerBuild', defaultValue: false, description: 'Docker Image Build')
+        booleanParam(name: 'imagePush', defaultValue: false, description: 'Docker image push')
+    }
+
+
+------------reset kube setup ----------
+
+
+kubeadm reset 
+yum autoremove  
+sudo rm -rf ~/.kube
+kubeadm init 

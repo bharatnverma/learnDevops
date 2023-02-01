@@ -41,7 +41,6 @@ pipeline {
                     sh '''
                       docker login -u bharatverman -p Vbachub310$
                       docker push bharatverman/learndevops
-                      docker rmi bharatverman/learndevops
                       docker logout
                       '''
             
@@ -52,6 +51,20 @@ pipeline {
 
       stage('Deploy to K8's'') {
           when { expression { params.deploy } }
+          steps{
+            
+              sh '''ssh -i "/home/bharat/Downloads/kubesetup.pem" ec2-user@ec2-13-234-34-149.ap-south-1.compute.amazonaws.com "curl -OJ https://github.com/bharatnverma/learnDevops/blob/main/deployment.yaml" 
+                    ssh -i "/home/bharat/Downloads/kubesetup.pem" ec2-user@ec2-13-234-34-149.ap-south-1.compute.amazonaws.com "kubectl --kubeconfig ~/config apply -f deployment.yaml " 
+                   
+                '''   
+          }
+
+
+
+      }
+
+            stage('Undeploy on Kubernetes Cluster ') {
+          when { expression { params.undeploy } }
           steps{
             
               sh '''ssh -i "/home/bharat/Downloads/kubesetup.pem" ec2-user@ec2-13-234-34-149.ap-south-1.compute.amazonaws.com "curl -OJ https://github.com/bharatnverma/learnDevops/blob/main/deployment.yaml" 

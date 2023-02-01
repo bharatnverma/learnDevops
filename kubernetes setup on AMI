@@ -1,0 +1,85 @@
+1 : create nodes on EC2 , master and slave and allow all traffics 
+connect to master node 
+	1 : 	yum update -y 
+	2 :   yum install docker 
+	3 : 	change the host name - hostnamectl set-hostname master
+	4 :    systemctl  enable docker , systemctl restart docker
+	5 :   disable se linux - sestatus , sudo setenforce 0 
+	6 :     install kubeadm   https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/ 
+
+
+cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+exclude=kubelet kubeadm kubectl
+EOF
+
+
+
+
+sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+
+Sudo systemctl enable kubelet
+Sudo systemctl restart kubelet kubeadm init 
+
+Follow the 3 commonds after the init  snd run the export command 
+
+
+curl https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml -O
+
+kubectl apply -f calico.yaml
+
+
+
+ Connect to worker node 
+
+	1 :  install docker - yum install docker 
+	2:   systemctl enable docker , systemctl restart docker 
+	3 : hostnamectl set-hostname worker
+
+Run the below commands 
+
+cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+exclude=kubelet kubeadm kubectl
+EOF
+
+
+
+sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+
+sudo systemctl enable kubelet
+
+
+Run the join command on worker node
+
+
+sudo yum install -y kubeadm
+ kubectl.x86_64 0:1.25.1-0 kubelet.x86_64 0:1.25.1-0 --disableexcludes=kubernetes
+
+
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 172.31.38.141:6443 --token 9kdcvb.u2zjhsonx5bbaqla	--discovery-token-ca-cert-hash sha256:0c7fec67422842f94ff8dbfad09f016e3633446a0cb57e89932891f80973ce95 
