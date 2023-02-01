@@ -30,7 +30,7 @@ metadata:
 spec:
   selector:
     app: webapp 
-  type: nodePort
+  type: NodePort
   ports:
   - protocol: TCP
     port: 8081

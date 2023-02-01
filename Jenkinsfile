@@ -53,7 +53,7 @@ pipeline {
           when { expression { params.deploy } }
           steps{
             
-              sh '''ssh -o "StrictHostKeyChecking no" -i "kubesetup.pem" ec2-user@ec2-3-110-190-236.ap-south-1.compute.amazonaws.com " curl -OJ https://github.com/bharatnverma/learnDevops/raw/main/deployment.yaml " 
+              sh '''ssh -o "StrictHostKeyChecking no" -i "kubesetup.pem" ec2-user@ec2-3-110-190-236.ap-south-1.compute.amazonaws.com " curl -OJ https://raw.githubusercontent.com/bharatnverma/learnDevops/main/deployment.yaml " 
                     ssh -o "StrictHostKeyChecking no" -i "kubesetup.pem" ec2-user@ec2-3-110-190-236.ap-south-1.compute.amazonaws.com " kubectl --kubeconfig ~/.kube/config  apply -f deployment.yaml " 
                    
                 '''   
