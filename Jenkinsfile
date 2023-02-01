@@ -28,7 +28,7 @@ pipeline {
        stage('Docker Build') {
         when { expression { params.dockerBuild } }
         steps {
-      	sh 'docker build -t bharatverman/learndevops:${VERSION} .'
+      	sh 'docker build -t bharatverman/learndevops .'
       }
         }
 
@@ -48,6 +48,20 @@ pipeline {
             
           }
         }
+      }
+
+      stage('Deploy to K8's'') {
+          when { expression { params.deploy } }
+          steps{
+            
+              sh '''ssh -i "/home/bharat/Downloads/kubesetup.pem" ec2-user@ec2-13-234-34-149.ap-south-1.compute.amazonaws.com "curl -OJ https://github.com/bharatnverma/learnDevops/blob/main/deployment.yaml" 
+                    ssh -i "/home/bharat/Downloads/kubesetup.pem" ec2-user@ec2-13-234-34-149.ap-south-1.compute.amazonaws.com "kubectl --kubeconfig ~/config apply -f deployment.yaml " 
+                   
+                '''   
+          }
+
+
+
       }
     } 
 

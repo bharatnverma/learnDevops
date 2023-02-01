@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nodeapp-deployment
+  name: webapp-deployment
   labels:
     app: webapp
 spec:
@@ -15,7 +15,7 @@ spec:
         app: webapp 
     spec:
       containers:
-      - name: nodeserver
+      - name: webappserver
         image: bharatverman/learndevops
         ports:
         - containerPort: 8081
@@ -26,7 +26,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nodeapp-service
+  name: webapp-service
 spec:
   selector:
     app: webapp 
