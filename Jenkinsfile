@@ -26,7 +26,7 @@ pipeline {
        stage('Docker Build') {
         when { expression { params.codeBuild  } }
         steps {
-      	sh 'docker build -t bharatverman/learndevops .'
+      	sh 'docker build -t bharatverman/learndevops:${VERSION} .'
       }
         }
 
@@ -38,7 +38,7 @@ pipeline {
          script {            
                     sh '''
                       docker login -u bharatverman -p Vbachub310$
-                      docker push bharatverman/learndevops
+                      docker push bharatverman/learndevops:${VERSION} 
                       docker logout
                       '''
             

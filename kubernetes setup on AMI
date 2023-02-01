@@ -67,19 +67,23 @@ sudo yum install -y kubeadm
  kubectl.x86_64 0:1.25.1-0 kubelet.x86_64 0:1.25.1-0 --disableexcludes=kubernetes
 
 
-
-  mkdir -p $HOME/.kube
-  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 Alternatively, if you are the root user, you can run:
 
   export KUBECONFIG=/etc/kubernetes/admin.conf
 
-You should now deploy a pod network to the cluster.
-Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
-  https://kubernetes.io/docs/concepts/cluster-administration/addons/
 
-Then you can join any number of worker nodes by running the following on each as root:
+kubeadm join 172.31.34.47:6443 --token 4g7whx.cqehfid3y2dvl54w --discovery-token-ca-cert-hash sha256:68f255006b833365edcf815e582b9cd951ac7ea5ee1138b9e9c63ed8038c1959 
 
-kubeadm join 172.31.38.141:6443 --token 9kdcvb.u2zjhsonx5bbaqla	--discovery-token-ca-cert-hash sha256:0c7fec67422842f94ff8dbfad09f016e3633446a0cb57e89932891f80973ce95 
+
+kubeadm join 172.31.34.47:6443 --token 4g7whx.cqehfid3y2dvl54w \
+	--discovery-token-ca-cert-hash sha256:68f255006b833365edcf815e582b9cd951ac7ea5ee1138b9e9c63ed8038c1959 
+
+
+kubeadm reset 
+yum autoremove  
+sudo rm -rf ~/.kube
+kubeadm init 
