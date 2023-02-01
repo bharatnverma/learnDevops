@@ -49,7 +49,7 @@ pipeline {
         }
       }
 
-      stage('Deploy to K8's'') {
+      stage('Deploy to Kubernetes') {
           when { expression { params.deploy } }
           steps{
             
